@@ -17,7 +17,7 @@ lazy val root = (project in file("."))
       "org.http4s"      %% "http4s-circe"        % Http4sVersion,
       "org.http4s"      %% "http4s-dsl"          % Http4sVersion,
       "io.circe"        %% "circe-generic"       % CirceVersion,
-      "org.specs2"      %% "specs2-core"         % Specs2Version % "test",
+      "is.cir" %% "ciris" % "1.0.4",
       "ch.qos.logback"  %  "logback-classic"     % LogbackVersion,
       "org.jsoup" % "jsoup" % "1.13.1"
     ),
@@ -33,3 +33,5 @@ scalacOptions ++= Seq(
   "-feature",
   "-Xfatal-warnings",
 )
+
+herokuAppName in Compile := "my-cook-book-backend"

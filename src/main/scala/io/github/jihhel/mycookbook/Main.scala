@@ -10,14 +10,17 @@ import scala.concurrent.ExecutionContext.global
 
 object Main extends IOApp {
   def run(args: List[String]): IO[ExitCode] = {
-    (for {
-      client <- BlazeClientBuilder[IO](global).stream
-      marmiton = MarmitonProxy.impl(client)
-      httpApp = MarmitonProxy.routes(marmiton).orNotFound
-      exitCode <- BlazeServerBuilder[IO]
-        .bindHttp(8080, "0.0.0.0")
-        .withHttpApp(httpApp)
-        .serve
-    } yield exitCode).drain.compile.drain.as(ExitCode.Success)
+    for {
+      config <- Config.load
+      ec <- (for {
+        client <- BlazeClientBuilder[IO](global).stream
+        marmiton = MarmitonProxy.impl(client)
+        httpApp = MarmitonProxy.routes(marmiton).orNotFound
+        exitCode <- BlazeServerBuilder[IO]
+          .bindHttp(config.port.number, "0.0.0.0")
+          .withHttpApp(httpApp)
+          .serve
+      } yield exitCode).drain.compile.drain.as(ExitCode.Success)
+    } yield ec
   }
 }
