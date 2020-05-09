@@ -5,6 +5,7 @@ import cats.implicits._
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.implicits._
 import org.http4s.server.blaze.BlazeServerBuilder
+import org.http4s.server.middleware.CORS
 
 import scala.concurrent.ExecutionContext.global
 
@@ -15,7 +16,7 @@ object Main extends IOApp {
       ec <- (for {
         client <- BlazeClientBuilder[IO](global).stream
         marmiton = MarmitonProxy.impl(client)
-        httpApp = MarmitonProxy.routes(marmiton).orNotFound
+        httpApp = CORS(MarmitonProxy.routes(marmiton)).orNotFound
         exitCode <- BlazeServerBuilder[IO]
           .bindHttp(config.port.number, "0.0.0.0")
           .withHttpApp(httpApp)
