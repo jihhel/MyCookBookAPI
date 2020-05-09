@@ -78,8 +78,10 @@ object MarmitonProxy {
     val maybeImage = card.select("img").asScala.headOption.map(_.attr("src"))
     val tags = card.select(".recipe-card__tags").select("li").asScala.map(_.text()).toList
     val duration = card.select(".recipe-card__duration__value").text()
+    val path = card.select(".recipe-card-link").attr("href")
+    val url = s"$marmitonURI$path"
 
-    Recipe(name, ingredients, duration, maybeImage, tags)
+    Recipe(name, ingredients, duration, maybeImage, tags, url)
   }
 
   private def canParseCard(card: Element): Boolean = {
