@@ -1,7 +1,7 @@
 val Http4sVersion = "0.21.3"
 val CirceVersion = "0.13.0"
-val Specs2Version = "4.9.3"
 val LogbackVersion = "1.2.3"
+val doobieVersion = "0.12.1"
 
 enablePlugins(JavaAppPackaging)
 
@@ -19,7 +19,11 @@ lazy val root = (project in file("."))
       "io.circe"        %% "circe-generic"       % CirceVersion,
       "is.cir" %% "ciris" % "1.0.4",
       "ch.qos.logback"  %  "logback-classic"     % LogbackVersion,
-      "org.jsoup" % "jsoup" % "1.13.1"
+      "org.postgresql" % "postgresql" % "42.2.5",
+      "org.tpolecat" %% "doobie-core" % doobieVersion,
+      "org.tpolecat" %% "doobie-quill" % doobieVersion,
+      "org.tpolecat" %% "doobie-hikari" % doobieVersion,
+      "io.getquill" %% "quill-jdbc" % "3.6.1"
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector"     % "0.10.3"),
     addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1")
@@ -35,3 +39,4 @@ scalacOptions ++= Seq(
 )
 
 herokuAppName in Compile := "my-cook-book-backend"
+
